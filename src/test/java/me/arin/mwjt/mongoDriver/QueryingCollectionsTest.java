@@ -430,7 +430,7 @@ public final class QueryingCollectionsTest extends SetupMongo {
         final Set<String> notIN = new HashSet<String>();
         notIN.add("nuts");
 
-        // now lets get back all the docs where the names field is in the target set
+        // now lets get back all the docs where the names field is NOT in the target set
         BasicDBObject nin = new BasicDBObject("$nin", notIN);
         BasicDBObject qryNin = new BasicDBObject("names", nin);
 
@@ -472,6 +472,7 @@ public final class QueryingCollectionsTest extends SetupMongo {
         collection.insert(new BasicDBObject("names", new String[]{"deez"}));
         collection.insert(new BasicDBObject("names", new String[]{"nuts"}));
 
+        // find docs where names contains everything in  {"deez", "nuts"} (aka $all)
         BasicDBObject allQry = new BasicDBObject("names", new BasicDBObject("$all", allOfThese));
         final DBCursor dbCursor = collection.find(allQry);
 
@@ -492,11 +493,13 @@ public final class QueryingCollectionsTest extends SetupMongo {
         collection.insert(new BasicDBObject("i", "i is a string"));
         collection.insert(new BasicDBObject("i", 666));
 
+        // find docs where the i field's value is a String
         final BasicDBObject qryIIsString = new BasicDBObject("i", new BasicDBObject("$type", 2));
         final DBCursor stringCursor = collection.find(qryIIsString);
         Assert.assertTrue(stringCursor.length() == 1);
         Assert.assertTrue(stringCursor.iterator().next().get("i") instanceof String);
 
+        // find docs where the i field's value is an i32
         final BasicDBObject qryIIsIntegre = new BasicDBObject("i", new BasicDBObject("$type", 16));
         final DBCursor integerCursor = collection.find(qryIIsIntegre);
         Assert.assertTrue(integerCursor.length() == 1);
