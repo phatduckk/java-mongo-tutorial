@@ -1,23 +1,28 @@
 package me.arin.mwjt.mongoDriver;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
+import com.mongodb.*;
+import me.arin.mwjt.SetupMongo;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.*;
 
-public class QueryingCollectionsTest extends CollectionBasicsTest {
+public final class QueryingCollectionsTest extends SetupMongo {
     private DBCollection collection;
+    protected static DB db = null;
 
-    @Override
+    @BeforeClass
+    public static void beforeClass() throws Exception {
+        SetupMongo.setUp();
+        db = mongo.getDB(CollectionBasicsTest.DB_NAME);
+    }
+
     @Before
     public void beforeMethod() {
-        super.beforeMethod();
-        collection = db.createCollection(COLLECTION_NAME, new BasicDBObject());
+        db.getCollection(CollectionBasicsTest.COLLECTION_NAME).drop();
+        collection = db.createCollection(CollectionBasicsTest.COLLECTION_NAME, new BasicDBObject());
     }
 
     @Test
@@ -48,7 +53,6 @@ public class QueryingCollectionsTest extends CollectionBasicsTest {
         final DBCursor dbCursor = collection.find();
         Assert.assertTrue(dbCursor instanceof Iterable);
         Assert.assertTrue(dbCursor instanceof Iterator);
-        Assert.assertTrue("u can call hasNext() like w/ other Iterators", dbCursor.hasNext());
 
         // iterate over it and you'll bget back your DBObjects
         for (DBObject dbObject : dbCursor) {

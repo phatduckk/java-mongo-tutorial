@@ -9,7 +9,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class CollectionBasicsTest extends SetupMongo {
+public final class CollectionBasicsTest extends SetupMongo {
     public static final String DB_NAME = "CollectionBasicsTestDB";
     public static final String COLLECTION_NAME = "myRadCollection";
 
@@ -51,9 +51,6 @@ public class CollectionBasicsTest extends SetupMongo {
 
     @Test
     public void dropCollection() {
-        // make sure it aint there to begin with
-        Assert.assertFalse(db.collectionExists(COLLECTION_NAME));
-
         // create the collection & ensure its there...
         final DBCollection collection = db.createCollection(COLLECTION_NAME, new BasicDBObject());
         Assert.assertTrue(db.collectionExists(COLLECTION_NAME));

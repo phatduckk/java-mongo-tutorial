@@ -1,20 +1,31 @@
 package me.arin.mwjt.mongoDriver;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
+import com.mongodb.*;
+import me.arin.mwjt.SetupMongo;
 import org.bson.types.ObjectId;
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class InsertDocument extends CollectionBasicsTest {
+public final class InsertDocument extends SetupMongo {
+    protected static DB db = null;
+
+    @BeforeClass
+    public static void beforeClass() throws Exception {
+        SetupMongo.setUp();
+        db = mongo.getDB(CollectionBasicsTest.DB_NAME);
+    }
+
+    private DBCollection getCollection() {
+        return db.getCollection(CollectionBasicsTest.COLLECTION_NAME);
+    }
+
     @Test
     public void insertADocument() {
-        final DBCollection collection = db.getCollection(COLLECTION_NAME);
+        final DBCollection collection = getCollection();
         final BasicDBObject document = new BasicDBObject("name", "Arin").append("age", 32).append(
                 "favoriteMovies",
                 new String[]{"Scream", "Halloween", "Donnie Darko"});
@@ -25,7 +36,7 @@ public class InsertDocument extends CollectionBasicsTest {
 
     @Test
     public void insertMultipleDocuments() {
-        final DBCollection collection = db.getCollection(COLLECTION_NAME);
+        final DBCollection collection = getCollection();
 
         final List<DBObject> docs = new ArrayList<DBObject>();
         docs.add(new BasicDBObject("hello", "there"));
@@ -48,7 +59,7 @@ public class InsertDocument extends CollectionBasicsTest {
 
     @Test
     public void automaticallyAssigned_id() {
-        final DBCollection collection = db.getCollection(COLLECTION_NAME);
+        final DBCollection collection = getCollection();
         final String idField = "_id";
 
         final BasicDBObject basicDBObject = new BasicDBObject("gimmie", "anId");
@@ -64,7 +75,7 @@ public class InsertDocument extends CollectionBasicsTest {
     public void dontHaveToUseObjectIdfor_id() {
         int i = 0;
 
-        final DBCollection collection = db.getCollection(COLLECTION_NAME);
+        final DBCollection collection = getCollection();
         final String idField = "_id";
         final String myId = "myId";
 

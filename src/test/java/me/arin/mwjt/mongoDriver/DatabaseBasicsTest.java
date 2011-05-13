@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import java.util.List;
 
-public class DatabaseBasicsTest extends SetupMongo {
+public final class DatabaseBasicsTest extends SetupMongo {
     private static final String ADMIN = "admin";
 
     @Test
