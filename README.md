@@ -1,0 +1,3 @@
+- run mongodb on port 27666 (/path/to/executable/mongod --port 27666)
+- import project into IntelliJ (community/free edition will work fine) or Eclipse (which sucks ass) and start poking around & running tests
+- you could run mvn test but it would be fucking worthless to not look at the code
