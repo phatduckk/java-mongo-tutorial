@@ -358,7 +358,7 @@ public final class QueryingCollectionsTest extends SetupMongo {
         dbCursorViaEquals = collection.find(queryViaEquals);
         Assert.assertTrue(2 == dbCursorViaEquals.length());
 
-        // now lets get back all the docs where the names field contains "deez"
+        // now search for some random string
         queryViaEquals = new BasicDBObject("names", "random ass string");
         dbCursorViaEquals = collection.find(queryViaEquals);
         Assert.assertTrue(0 == dbCursorViaEquals.length());
