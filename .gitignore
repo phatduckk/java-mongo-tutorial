@@ -1,0 +1,5 @@
+target
+CollectionBasicsTestDB*
+.idea
+*.iml
+mongod.lock
