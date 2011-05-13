@@ -199,7 +199,7 @@ public final class QueryingCollectionsTest extends SetupMongo {
         final BasicDBObject query = new BasicDBObject("i", new BasicDBObject("$ne", valueWeCareAbout));
         final DBCursor dbCursor = collection.find(query);
 
-        // should get 2 results..
+        // should get 9 results..
         Assert.assertEquals(9, dbCursor.length());
 
         // make sure i == 5 in both
